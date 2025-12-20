@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77d253bf-cde1-4e81-ab0d-3a0a776683ad" name="Changes" comment="" />
+    <list default="true" id="77d253bf-cde1-4e81-ab0d-3a0a776683ad" name="Changes" comment="Initial Spring Boot project with PostgreSQL setup">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tripplanner/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/tripplanner/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,11 +78,24 @@
       <updated>1765830179563</updated>
       <workItem from="1765830182169" duration="3811000" />
       <workItem from="1765834306743" duration="179000" />
-      <workItem from="1766225391852" duration="1342000" />
+      <workItem from="1766225391852" duration="2140000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Spring Boot project with PostgreSQL setup">
+      <option name="closed" value="true" />
+      <created>1766227243844</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1766227243844</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Spring Boot project with PostgreSQL setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Spring Boot project with PostgreSQL setup" />
   </component>
 </project>
