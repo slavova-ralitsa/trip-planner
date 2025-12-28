@@ -22,6 +22,8 @@ public class Destination {
     @Column(nullable = true)
     private Double longitude;
 
+    public Destination () {}
+
     public Long getId() {
         return id;
     }

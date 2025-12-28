@@ -16,10 +16,6 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email) {
-        this.username = username;
-    }
-
     public Long getId() {
         return id;
     }
