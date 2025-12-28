@@ -17,6 +17,8 @@ public class UserDestination {
     @ManyToOne
     @JoinColumn(name = "destination_id", nullable = false)
     private Destination destination;
+
+    public UserDestination () {}
 }
 
 
