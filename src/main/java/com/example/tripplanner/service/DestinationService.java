@@ -1,11 +1,13 @@
 package com.example.tripplanner.service;
 
 import com.example.tripplanner.entities.Destination;
+import com.example.tripplanner.entities.User;
 import com.example.tripplanner.repositories.DestinationRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DestinationService {
@@ -20,12 +22,13 @@ public class DestinationService {
         return destinationRepository.save(destination);
     }
 
-    public Optional<Destination> getDestinationById(Long id){
-        return destinationRepository.findById(id);
+    public Destination getDestinationById(Long id){
+        return destinationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Optional<Destination> getDestinationByCoordinates(double latitude, double longitude){
-        return destinationRepository.findByLatitudeAndLongitude(latitude, longitude);
+    public Destination getDestinationByCoordinates(double latitude, double longitude){
+        return destinationRepository.findByLatitudeAndLongitude(latitude, longitude)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public List<Destination> getDestinationsByCountry(String country){
@@ -33,6 +36,25 @@ public class DestinationService {
     }
 
     public void deleteDestinationById(Long id){
-        destinationRepository.deleteById(id);
+        if(destinationRepository.existsById(id))
+                destinationRepository.deleteById(id);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-}
+
+    public Destination updateDestination(Long id, Destination destination) {
+        if (destinationRepository.existsById(id)) {
+             destination.setId(id);
+
+             return destinationRepository.save(destination);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public List<Destination> findAll() {
+        return destinationRepository.findAll();
+    }
+
+
+    }
