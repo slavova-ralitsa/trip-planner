@@ -4,10 +4,12 @@ import com.example.tripplanner.dto.ErrorCode;
 import com.example.tripplanner.dto.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(DestinationNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleDestinationNotFound(DestinationNotFoundException ex) {
@@ -18,12 +20,12 @@ public class ExceptionHandler {
     @ExceptionHandler(DestinationAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleDestinationExists(DestinationAlreadyExistsException ex) {
         ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.DESTINATION_ALREADY_EXISTS, ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT); // Status 409
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex) {
-        ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.GENERIC_ERROR, "Възникна неочаквана грешка в сървъра.");
+        ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.GENERIC_ERROR, "Unexpected internal server error.");
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
