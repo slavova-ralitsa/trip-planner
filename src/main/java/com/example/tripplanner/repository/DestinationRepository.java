@@ -1,7 +1,5 @@
-package com.example.tripplanner.repositories;
-import com.example.tripplanner.entities.Destination;
-import com.example.tripplanner.entities.User;
-import jakarta.persistence.Column;
+package com.example.tripplanner.repository;
+import com.example.tripplanner.entity.Destination;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +11,6 @@ public interface DestinationRepository extends JpaRepository<Destination,Long> {
     Optional<Destination> findByLatitudeAndLongitude(double latitude, double longitude);
 
     List<Destination> findByCountry(String country);
+
+    List<Destination> findByCity(String city);
 }

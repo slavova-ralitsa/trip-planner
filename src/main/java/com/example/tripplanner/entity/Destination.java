@@ -1,4 +1,4 @@
-package com.example.tripplanner.entities;
+package com.example.tripplanner.entity;
 
 import jakarta.persistence.*;
 
@@ -16,10 +16,10 @@ public class Destination {
     @Column(nullable = false)
     private String country;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Double latitude;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Double longitude;
 
     public Destination () {}
