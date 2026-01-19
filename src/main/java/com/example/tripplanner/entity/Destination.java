@@ -1,6 +1,7 @@
 package com.example.tripplanner.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "destinations")
@@ -10,15 +11,19 @@ public class Destination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String city;
 
+    @NotBlank
     @Column(nullable = false)
     private String country;
 
+    @NotBlank
     @Column(nullable = false)
     private Double latitude;
 
+    @NotBlank
     @Column(nullable = false)
     private Double longitude;
 
