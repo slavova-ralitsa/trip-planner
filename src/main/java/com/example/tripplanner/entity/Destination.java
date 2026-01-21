@@ -11,6 +11,9 @@ public class Destination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String name;
+
     @NotBlank
     @Column(nullable = false)
     private String city;
@@ -27,6 +30,12 @@ public class Destination {
     @Column(nullable = false)
     private Double longitude;
 
+    @Column
+    private String description;
+
+    @Column
+    private Double rating;
+
     public Destination () {}
 
     public Long getId() {
@@ -35,6 +44,14 @@ public class Destination {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return city;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCity() {
@@ -68,4 +85,21 @@ public class Destination {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
 }

@@ -29,7 +29,7 @@ public class DestinationService {
 
     public Destination getDestinationById(Long id) {
         return destinationRepository.findById(id)
-                .orElseThrow(()  -> new DestinationNotFoundException("No destination present with id = " + id));
+                .orElseThrow(() -> new DestinationNotFoundException("No destination present with id = " + id));
     }
 
     public Destination getDestinationByCoordinates(double latitude, double longitude) {
@@ -50,7 +50,7 @@ public class DestinationService {
         if (existingDestination.isEmpty())
             throw new DestinationNotFoundException(("No destination present with id = " + id));
          else
-            destinationRepository.deleteById(id);
+             destinationRepository.deleteById(id);
     }
 
     public Destination updateDestination(Long id, Destination destination) {

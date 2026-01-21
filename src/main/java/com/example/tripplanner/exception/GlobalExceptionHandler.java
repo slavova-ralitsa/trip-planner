@@ -23,6 +23,30 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleUserExists(UserAlreadyExistsException ex) {
+        ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.USER_ALREADY_EXISTS, ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleUserNotFound(UserNotFoundException ex) {
+        ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.USER_NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FavouriteDestinationAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleFavouriteDestinationExists(FavouriteDestinationAlreadyExistsException ex) {
+        ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.FAVOURITE_DESTINATION_ALREADY_EXISTS, ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(FavouriteDestinationNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleFavouriteDestinationNotFound(FavouriteDestinationNotFoundException ex) {
+        ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.USER_NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex) {
         ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.GENERIC_ERROR, "Unexpected internal server error.");

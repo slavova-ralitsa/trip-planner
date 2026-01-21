@@ -1,10 +1,11 @@
 package com.example.tripplanner.entity;
-
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_destinations")
-public class UserDestination {
+@Table(name = "user_favourites", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "destination_id"})
+})
+public class UserFavourite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,26 +19,26 @@ public class UserDestination {
     @JoinColumn(name = "destination_id", nullable = false)
     private Destination destination;
 
-    public UserDestination () {}
+    public UserFavourite() {}
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Destination getDestination() {
         return destination;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setDestination(Destination destination) {
@@ -45,5 +46,3 @@ public class UserDestination {
     }
 
 }
-
-

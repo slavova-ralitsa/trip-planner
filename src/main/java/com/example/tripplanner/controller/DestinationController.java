@@ -56,9 +56,4 @@ public class DestinationController {
         return destinationService.getDestinationsByCountry(country);
     }
 
-    @GetMapping("/search")
-    public List<Destination> searchByCity(@RequestParam String city) {
-        return destinationService.getDestinationByCity(city);
-    }
-
 }
