@@ -47,6 +47,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(TripNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTripNotFound(TripNotFoundException ex) {
+        ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.TRIP_NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex) {
         ErrorResponseDTO error = new ErrorResponseDTO(ErrorCode.GENERIC_ERROR, "Unexpected internal server error.");

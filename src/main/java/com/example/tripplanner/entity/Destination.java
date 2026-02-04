@@ -47,7 +47,7 @@ public class Destination {
     }
 
     public String getName() {
-        return city;
+        return name;
     }
 
     public void setName(String name) {

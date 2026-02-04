@@ -1,7 +1,8 @@
 package com.example.tripplanner.exception;
 
-public class NoSuchDestinationExistsException extends RuntimeException {
-    public NoSuchDestinationExistsException(String msg) {
+public class DestinationNotFoundException extends RuntimeException {
+
+    public DestinationNotFoundException(String msg) {
         super(msg);
     }
 }
