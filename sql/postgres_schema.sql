@@ -1,7 +1,10 @@
 -- TripPlanner schema for PostgreSQL
 -- Can be executed manually in psql or pgAdmin.
 
+DROP TABLE IF EXISTS user_favourites;
+DROP TABLE IF EXISTS trip_destination;
 DROP TABLE IF EXISTS user_destinations;
+DROP TABLE IF EXISTS trips;
 DROP TABLE IF EXISTS app_users;
 DROP TABLE IF EXISTS destinations;
 
@@ -22,6 +25,37 @@ CREATE TABLE app_users (
 );
 
 CREATE TABLE user_destinations (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    destination_id BIGINT NOT NULL,
+
+    FOREIGN KEY(user_id) REFERENCES app_users(id) ON DELETE CASCADE,
+    FOREIGN KEY(destination_id) REFERENCES destinations(id) ON DELETE CASCADE
+);
+
+CREATE TABLE trips (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    destination_id BIGINT NOT NULL,
+
+    FOREIGN KEY(user_id) REFERENCES app_users(id) ON DELETE CASCADE,
+    FOREIGN KEY(destination_id) REFERENCES destinations(id) ON DELETE CASCADE
+);
+
+CREATE TABLE trip_destination (
+    id BIGSERIAL PRIMARY KEY,
+    trip_id BIGINT NOT NULL,
+    destination_id BIGINT NOT NULL,
+    dayindex INT,
+
+    FOREIGN KEY(trip_id) REFERENCES trips(id) ON DELETE CASCADE,
+    FOREIGN KEY(destination_id) REFERENCES destinations(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_favourites (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
     destination_id BIGINT NOT NULL,
