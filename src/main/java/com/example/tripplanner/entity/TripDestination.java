@@ -18,7 +18,7 @@ public class TripDestination {
     private Trip trip;
 
     @ManyToOne
-    @JoinColumn(name = "destination_id", nullable = false)
+    @JoinColumn(name = "destination_id", nullable = false, insertable = false, updatable = false)
     private Destination destination;
 
     @Column(nullable = false)
