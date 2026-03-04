@@ -20,8 +20,8 @@ public class UserFavouriteController {
     }
 
     @GetMapping
-    public List<Destination> getFavourites(@PathVariable Long userDd) {
-        return userFavouriteService.listFavourites(userDd);
+    public List<Destination> getFavourites(@PathVariable Long userId) {
+        return userFavouriteService.listFavourites(userId);
     }
 
     @PostMapping("/{destinationId}")

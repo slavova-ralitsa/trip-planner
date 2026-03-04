@@ -1,7 +1,5 @@
 package com.example.tripplanner.entity;
 
-import java.util.Date;
-import java.util.List;
 
 import jakarta.persistence.*;
 

@@ -1,7 +1,6 @@
 package com.example.tripplanner.controller;
 
 import com.example.tripplanner.entity.User;
-import com.example.tripplanner.entity.UserDestination;
 import com.example.tripplanner.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

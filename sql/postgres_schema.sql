@@ -3,7 +3,6 @@
 
 DROP TABLE IF EXISTS user_favourites;
 DROP TABLE IF EXISTS trip_destination;
-DROP TABLE IF EXISTS user_destinations;
 DROP TABLE IF EXISTS trips;
 DROP TABLE IF EXISTS app_users;
 DROP TABLE IF EXISTS destinations;
@@ -30,18 +29,16 @@ CREATE TABLE trips (
     name VARCHAR(255) NOT NULL UNIQUE,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    createdDate DATE,
-    destination_id BIGINT NOT NULL,
+    created_date DATE,
 
     FOREIGN KEY(user_id) REFERENCES app_users(id) ON DELETE CASCADE,
-    FOREIGN KEY(destination_id) REFERENCES destinations(id) ON DELETE CASCADE
 );
 
 CREATE TABLE trip_destination (
     id BIGSERIAL PRIMARY KEY,
     trip_id BIGINT NOT NULL,
     destination_id BIGINT NOT NULL,
-    dayindex INT,
+    day_index INT,
     FOREIGN KEY(trip_id) REFERENCES trips(id) ON DELETE CASCADE,
     FOREIGN KEY(destination_id) REFERENCES destinations(id) ON DELETE CASCADE
 );
@@ -112,7 +109,7 @@ VALUES
     (6,'cveti_t')
     ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO trip (id, user_id, name, start_date, end_date,created_date)
+INSERT INTO trips (id, user_id, name, start_date, end_date,created_date)
 VALUES
     (1,1,'Summer Vacation', '2025-07-20','2025-07-28','2025-07-02'),
     (2,2,'Spain','2025-05-01','2025-05-06','2025-05-01'),
@@ -174,7 +171,6 @@ VALUES
     (41,7,10,2),
     (42,7,11,3),
     (43,7,11,4)
-
     ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO user_favourites (id,user_id, destination_id)
