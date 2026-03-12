@@ -23,24 +23,24 @@ public class UserService {
         if (existingUser.isEmpty()) {
             return userRepository.save(user);
         } else {
-            throw new UserAlreadyExistsException("User already exists!");
+            throw new UserAlreadyExistsException(user.getId());
         }
     }
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(()  -> new UserNotFoundException("No user present with id = " + id));
+                .orElseThrow(()  -> new UserNotFoundException(id));
     }
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(()  -> new UserNotFoundException("No user present with username = " + username));
+                .orElseThrow(()  -> new UserNotFoundException(username));
     }
 
     public void deleteUserById(Long id) {
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isEmpty())
-            throw new UserNotFoundException(("No user present with id = " + id));
+            throw new UserNotFoundException((id));
         else
             userRepository.deleteById(id);
     }
@@ -48,7 +48,7 @@ public class UserService {
     public User updateUser(Long id, User user) {
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isEmpty())
-            throw new UserNotFoundException(("No user present with id = " + id));
+            throw new UserNotFoundException((id));
         else {
             user.setId(id);
             return userRepository.save(user);

@@ -30,13 +30,13 @@ public class UserFavouriteService {
 
     public UserFavourite addFavourite(Long userId, Long destinationId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("No user present with id = " + userId));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         Destination destination = destinationRepository.findById(destinationId)
-                .orElseThrow(() -> new DestinationNotFoundException("No destination present with id = " + destinationId));
+                .orElseThrow(() -> new DestinationNotFoundException(destinationId));
 
         if(userFavouriteRepository.existsByUserIdAndDestinationId(userId, destinationId)) {
-            throw new FavouriteDestinationAlreadyExistsException ("Destination is already in favourites");
+            throw new FavouriteDestinationAlreadyExistsException (destinationId);
         }
 
         UserFavourite userFavourite = new UserFavourite();
@@ -48,14 +48,14 @@ public class UserFavouriteService {
 
     public void removeFavourite(Long userId, Long destinationId) {
         if(!userFavouriteRepository.existsByUserIdAndDestinationId(userId, destinationId))
-            throw new FavouriteDestinationNotFoundException( "Favourite destinationId = " + destinationId + " not found for userId = " + userId);
+            throw new FavouriteDestinationNotFoundException(destinationId, userId);
 
         userFavouriteRepository.deleteByUserIdAndDestinationId(userId, destinationId);
     }
 
     public List<Destination> listFavourites(Long userId) {
         if (!userRepository.existsById(userId))
-            throw new UserNotFoundException("No user present with id = " + userId);
+            throw new UserNotFoundException(userId);
 
         List<Destination> destinations = new ArrayList<>();
         List<UserFavourite> userFavourites = userFavouriteRepository.findByUserId(userId);

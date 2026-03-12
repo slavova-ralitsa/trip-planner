@@ -1,7 +1,8 @@
 package com.example.tripplanner.exception;
 
 public class TripNotFoundException extends RuntimeException {
-    public TripNotFoundException(String msg) {
-        super(msg);
+    public TripNotFoundException(Long id) {
+        super("Trip with id " + id + " not found!");
+
     }
 }

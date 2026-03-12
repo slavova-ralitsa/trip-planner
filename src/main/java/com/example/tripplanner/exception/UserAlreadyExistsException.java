@@ -2,7 +2,8 @@ package com.example.tripplanner.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 
-    public UserAlreadyExistsException(String msg) {
-        super(msg);
+    public UserAlreadyExistsException(Long id) {
+        super("User with id " + id + " already exists!");
+
     }
 }

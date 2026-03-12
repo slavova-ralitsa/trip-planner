@@ -2,7 +2,7 @@ package com.example.tripplanner.exception;
 
 public class DestinationAlreadyExistsException extends RuntimeException {
 
-    public DestinationAlreadyExistsException(String msg) {
-        super(msg);
+    public DestinationAlreadyExistsException(Long id) {
+        super("Destination with id " + id + "already exists!");
     }
 }

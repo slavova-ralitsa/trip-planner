@@ -79,7 +79,7 @@ public class TripService {
 
         for(long id : destinationIds) {
             Destination destination = destinationRepository.findById(id)
-                            .orElseThrow(() -> new DestinationNotFoundException("Destination with id = " + id + " not found!"));
+                            .orElseThrow(() -> new DestinationNotFoundException(id));
             destinations.add(destination);
         }
         return destinations;
@@ -89,7 +89,7 @@ public class TripService {
 
     public Trip createTrip(Long userId, String tripName, Date startDate, Date endDate, List<Long> destinationIds) {
         User user = userRepository.findById(userId)
-                        .orElseThrow(() -> new UserNotFoundException("User with id = " + userId + " not found!"));
+                        .orElseThrow(() -> new UserNotFoundException(userId));
 
         Trip trip = new Trip();
         trip.setUser(user);
@@ -113,18 +113,18 @@ public class TripService {
         return tripRepository.save(trip);
     }
 
-    public List<Trip> getTrips(Long userId) {
+    public List<Trip> getTripById(Long userId) {
         return tripRepository.findByUserId(userId);
     }
 
     public Trip getTripByTripID(Long userId, Long tripId) {
         return tripRepository.findByIdAndUserId(userId, tripId)
-                    .orElseThrow(() -> new TripNotFoundException("No present trip with id = " + tripId));
+                    .orElseThrow(() -> new TripNotFoundException(tripId));
     }
 
     public void removeTrip(Long userId, Long tripId) {
         Trip trip = tripRepository.findByIdAndUserId(userId, tripId)
-                        .orElseThrow(() -> new TripNotFoundException("No present trip with id = " + tripId));
+                        .orElseThrow(() -> new TripNotFoundException(tripId));
 
         tripRepository.delete(trip);
     }

@@ -88,7 +88,7 @@ public class DestinationServiceTests {
     }
 
     @Test
-    void getDestinationById_invalidId_DestinationNotFoundException() {
+    void getDestinationById_invalidId_throwsDestinationNotFoundException() {
         when(destinationRepository.findById(-1L)).thenReturn(Optional.empty());
 
         assertThrows(DestinationNotFoundException.class, () -> {destinationService.getDestinationById((long) -1L);});

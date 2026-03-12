@@ -23,18 +23,18 @@ public class DestinationService {
         if (existingDestination.isEmpty()) {
             return destinationRepository.save(destination);
         } else {
-            throw new DestinationAlreadyExistsException("Destination already exists!");
+            throw new DestinationAlreadyExistsException(destination.getId());
         }
     }
 
     public Destination getDestinationById(Long id) {
         return destinationRepository.findById(id)
-                .orElseThrow(() -> new DestinationNotFoundException("No destination present with id = " + id));
+                .orElseThrow(() -> new DestinationNotFoundException(id));
     }
 
     public Destination getDestinationByCoordinates(double latitude, double longitude) {
         return destinationRepository.findByLatitudeAndLongitude(latitude, longitude)
-                .orElseThrow(() -> new DestinationNotFoundException("No destination present with latitude = " + latitude + " and longitude = " + longitude));
+                .orElseThrow(() -> new DestinationNotFoundException(latitude, longitude));
     }
 
     public List<Destination> getDestinationsByCountry(String country) {
@@ -48,7 +48,7 @@ public class DestinationService {
     public void deleteDestinationById(Long id) {
         Optional<Destination> existingDestination = destinationRepository.findById(id);
         if (existingDestination.isEmpty())
-            throw new DestinationNotFoundException(("No destination present with id = " + id));
+            throw new DestinationNotFoundException((id));
          else
              destinationRepository.deleteById(id);
     }
@@ -56,7 +56,7 @@ public class DestinationService {
     public Destination updateDestination(Long id, Destination destination) {
         Optional<Destination> existingDestination = destinationRepository.findById(id);
         if (existingDestination.isEmpty())
-            throw new DestinationNotFoundException(("No destination present with id = " + id));
+            throw new DestinationNotFoundException((id));
         else {
             destination.setId(id);
             return destinationRepository.save(destination);
