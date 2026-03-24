@@ -45,14 +45,14 @@ VALUES
 
 ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO app_users (id,username)
+INSERT INTO app_users (id,email,password)
 VALUES
-    (1,'ralica_s'),
-    (2,'ivan_g'),
-    (3,'ivailo_k'),
-    (4,'maria_p'),
-    (5,'vili_l'),
-    (6,'cveti_t')
+    (1,'ralica_s@gmail.com','$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ3a'),
+    (2,'ivan_g@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ3a'),
+    (3,'ivailo_k@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ3a'),
+    (4,'maria_p@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ3a'),
+    (5,'vili_l@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ3a'),
+    (6,'cveti_t@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ3a')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO trip (id, user_id, name, start_date, end_date,created_date)

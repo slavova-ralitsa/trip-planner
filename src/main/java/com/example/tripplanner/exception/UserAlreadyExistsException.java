@@ -6,4 +6,8 @@ public class UserAlreadyExistsException extends RuntimeException {
         super("User with id " + id + " already exists!");
 
     }
+
+    public UserAlreadyExistsException() {
+        super("User already exists!");
+    }
 }

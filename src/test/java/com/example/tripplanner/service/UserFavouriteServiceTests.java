@@ -14,12 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class UserFavouriteServiceTests {
     @Mock
@@ -43,7 +42,7 @@ public class UserFavouriteServiceTests {
     private User createTestUser() {
         User user = new User();
         user.setId(1L);
-        user.setUsername("ralitsa_sl");
+        user.setEmail("ralitsa_sl@gmail.com");
         return user;
     }
 

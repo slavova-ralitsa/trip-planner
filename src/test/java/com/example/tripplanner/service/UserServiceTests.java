@@ -1,5 +1,6 @@
 package com.example.tripplanner.service;
 
+import com.example.tripplanner.dto.UserRegistrationDTO;
 import com.example.tripplanner.entity.User;
 import com.example.tripplanner.exception.UserAlreadyExistsException;
 import com.example.tripplanner.exception.UserNotFoundException;
@@ -9,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,20 +25,23 @@ public class UserServiceTests {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserService userService;
 
     private User createFirstTestUser() {
         User user = new User();
         user.setId(1L);
-        user.setUsername("ralitsa_sl");
+        user.setEmail("ralitsa_sl@gmail.com");
         return user;
     }
 
     private User createSecondTestUser() {
         User user = new User();
         user.setId(2L);
-        user.setUsername("ivailo_gr");
+        user.setEmail("ivailo_gr@gmail.com");
         return user;
     }
 
@@ -50,7 +55,7 @@ public class UserServiceTests {
 
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
-        assertEquals("ralitsa_sl", result.getUsername());
+        assertEquals("ralitsa_sl@gmail.com", result.getEmail());
         verify(userRepository, times(1)).save(user);
     }
 
@@ -58,7 +63,7 @@ public class UserServiceTests {
     void createUser_invalidInput_throwsUserAlreadyExistsException() {
         User user = createFirstTestUser();
 
-        when(userRepository.findByUsername("ralitsa_sl")).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail("ralitsa_sl@gmail.com")).thenReturn(Optional.of(user));
 
         assertThrows(UserAlreadyExistsException.class, () -> {
             userService.createUser(user);
@@ -76,7 +81,7 @@ public class UserServiceTests {
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
-        assertEquals("ralitsa_sl", result.getUsername());
+        assertEquals("ralitsa_sl@gmail.com", result.getEmail());
         verify(userRepository, times(1)).findById(1L);
     }
 
@@ -92,22 +97,22 @@ public class UserServiceTests {
     void getUserByUsername_validUsername_returnsUser() {
         User user = createFirstTestUser();
 
-        when(userRepository.findByUsername("ralitsa_sl")).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail("ralitsa_sl@gmail.com")).thenReturn(Optional.of(user));
 
-        User result = userService.getUserByUsername("ralitsa_sl");
+        User result = userService.getUserByUsername("ralitsa_sl@gmail.com");
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
-        assertEquals("ralitsa_sl", result.getUsername());
-        verify(userRepository, times(1)).findByUsername("ralitsa_sl");
+        assertEquals("ralitsa_sl@gmail.com", result.getEmail());
+        verify(userRepository, times(1)).findByEmail("ralitsa_sl@gmail.com");
     }
 
     @Test
     void getUserByUsername_invalidUsername_throwsUserNotFoundException() {
-        when(userRepository.findByUsername("")).thenReturn(Optional.empty());
+        when(userRepository.findByEmail("")).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {userService.getUserByUsername("");});
-        verify(userRepository, times(1)).findByUsername("");
+        verify(userRepository, times(1)).findByEmail("");
     }
 
     @Test
@@ -125,7 +130,7 @@ public class UserServiceTests {
 
         assertNotNull(updatedUser);
         assertEquals(userId, updatedUser.getId());
-        assertEquals("ivailo_gr", updatedUser.getUsername());
+        assertEquals("ivailo_gr@gmail.com", updatedUser.getEmail());
         verify(userRepository, times(1)).save(any(User.class));
     }
 
@@ -176,4 +181,42 @@ public class UserServiceTests {
         verify(userRepository, times(1)).findAll();
     }
 
+    @Test
+    void registerUser_returnsRegisteredUser() {
+        UserRegistrationDTO dto = new UserRegistrationDTO();
+        dto.setEmail("ralitsa_sl@gmail.com");
+        dto.setPassword("password123");
+        dto.setConfirmPassword("password123");
+
+        when(userRepository.findByEmail(dto.getEmail())).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(dto.getPassword())).thenReturn("hashedPassword");
+
+        User savedUser = new User();
+        savedUser.setId(1L);
+        savedUser.setEmail(dto.getEmail());
+        savedUser.setPassword("hashedPassword");
+
+        when(userRepository.save(any(User.class))).thenReturn(savedUser);
+
+        User result = userService.registerUser(dto);
+
+        assertNotNull(result.getId());
+        assertEquals("ralitsa_sl@gmail.com", result.getEmail());
+        assertEquals("hashedPassword", result.getPassword());
+    }
+
+    @Test
+    void registerUser_existingEmail_throwsUserAlreadyExistsException() {
+        UserRegistrationDTO dto = new UserRegistrationDTO();
+        dto.setEmail("ralitsa_sl@gmail.com");
+
+        when(userRepository.findByEmail(dto.getEmail()))
+                .thenReturn(Optional.of(new User()));
+
+        assertThrows(UserAlreadyExistsException.class, () -> {
+            userService.registerUser(dto);
+        });
+
+        verify(userRepository, never()).save(any(User.class));
+    }
 }

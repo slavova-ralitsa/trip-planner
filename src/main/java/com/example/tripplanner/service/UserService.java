@@ -1,9 +1,11 @@
 package com.example.tripplanner.service;
 
+import com.example.tripplanner.dto.UserRegistrationDTO;
 import com.example.tripplanner.entity.User;
 import com.example.tripplanner.exception.UserAlreadyExistsException;
 import com.example.tripplanner.exception.UserNotFoundException;
 import com.example.tripplanner.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,13 +15,16 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User createUser(User user) {
-        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser.isEmpty()) {
             return userRepository.save(user);
         } else {
@@ -33,7 +38,7 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+        return userRepository.findByEmail(username)
                 .orElseThrow(()  -> new UserNotFoundException(username));
     }
 
@@ -57,6 +62,26 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User registerUser(UserRegistrationDTO dto) {
+        String email = dto.getEmail();
+        String password = dto.getPassword();
+        String confirmPassword = dto.getConfirmPassword();
+
+         Optional<User> existingUser = userRepository.findByEmail(email);
+
+        if(existingUser.isPresent())
+            throw new UserAlreadyExistsException();
+
+        if(!dto.passwordsMatch())
+            throw new IllegalArgumentException("Passwords do not match");
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+
+        return userRepository.save(user);
     }
 
 }

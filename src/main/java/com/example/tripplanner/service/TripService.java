@@ -13,6 +13,7 @@ import com.example.tripplanner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @Service
 public class TripService {
     private final TripRepository tripRepository;
+
 
     public TripService(TripRepository tripRepository) {
         this.tripRepository = tripRepository;
@@ -43,7 +45,7 @@ public class TripService {
         return earthRadius * c;
     }
 
-    private List<Destination> sortDestinations(List<Destination> destinations) {
+    protected List<Destination> sortDestinations(List<Destination> destinations) {
         if (destinations.isEmpty())
             return destinations;
 
@@ -72,7 +74,7 @@ public class TripService {
     @Autowired
     private DestinationRepository destinationRepository;
 
-    private List<Destination> transformListOfIdsToListOfDestinations(List<Long> destinationIds) {
+    protected List<Destination> transformListOfIdsToListOfDestinations(List<Long> destinationIds) {
         List<Destination> destinations = new ArrayList<>();
         if(destinationIds.isEmpty())
             return destinations;
@@ -87,16 +89,19 @@ public class TripService {
     @Autowired
     private UserRepository userRepository;
 
-    public Trip createTrip(Long userId, String tripName, Date startDate, Date endDate, List<Long> destinationIds) {
+    public Trip createTrip(Long userId, String tripName, LocalDate startDate, LocalDate endDate, List<Long> destinationIds) {
         User user = userRepository.findById(userId)
                         .orElseThrow(() -> new UserNotFoundException(userId));
+        if (endDate.isBefore(startDate)) {
+            throw new RuntimeException("End date cannot be before start date!");
+        }
 
         Trip trip = new Trip();
         trip.setUser(user);
         trip.setName(tripName);
         trip.setStartDate(startDate);
         trip.setEndDate(endDate);
-        trip.setCreatedDate(new Date());
+        trip.setCreatedDate(LocalDate.now());
 
         List<Destination> destinations = sortDestinations(transformListOfIdsToListOfDestinations(destinationIds));
         List<TripDestination> tripDestinations = new ArrayList<>();
@@ -113,7 +118,7 @@ public class TripService {
         return tripRepository.save(trip);
     }
 
-    public List<Trip> getTripById(Long userId) {
+    public List<Trip> getTripByUserId(Long userId) {
         return tripRepository.findByUserId(userId);
     }
 
