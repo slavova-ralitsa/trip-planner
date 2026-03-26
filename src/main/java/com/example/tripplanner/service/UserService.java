@@ -15,6 +15,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
 
 
@@ -26,6 +27,7 @@ public class UserService {
     public User createUser(User user) {
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         } else {
             throw new UserAlreadyExistsException(user.getId());
@@ -43,22 +45,23 @@ public class UserService {
     }
 
     public void deleteUserById(Long id) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isEmpty())
-            throw new UserNotFoundException((id));
-        else
-            userRepository.deleteById(id);
+        if (!userRepository.existsById(id))
+            throw new UserNotFoundException(id);
+
+        userRepository.deleteById(id);
     }
 
     public User updateUser(Long id, User user) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isEmpty())
-            throw new UserNotFoundException((id));
-        else {
-            user.setId(id);
-            return userRepository.save(user);
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+        if (user.getEmail() != null && !user.getEmail().isBlank()) {
+            existingUser.setEmail(user.getEmail());
         }
-    }
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+            return userRepository.save(existingUser);
+        }
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -83,5 +86,7 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
 }
+
+
+

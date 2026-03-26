@@ -13,14 +13,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. ИЗКЛЮЧИ CSRF (задължително за тестване на POST с Postman)
                 .csrf(csrf -> csrf.disable())
 
-                // 2. НАСТРОЙ ПРАВИЛАТА ЗА ДОСТЪП
                 .authorizeHttpRequests(auth -> auth
-                        // Разреши на всеки да достъпва регистрацията
                         .requestMatchers("/api/users/register").permitAll()
-                        // Всички останали заявки изискват логване
                         .anyRequest().authenticated()
                 );
 
