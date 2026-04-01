@@ -1,6 +1,5 @@
 package com.example.tripplanner.entity;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -8,7 +7,12 @@ import jakarta.persistence.*;
 public class TripDestination {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trip_destination_seq")
+    @SequenceGenerator(
+            name = "trip_destination_seq",
+            sequenceName = "trip_destination_sequence",
+            allocationSize = 50
+    )
     private Long id;
 
     @ManyToOne
@@ -21,6 +25,8 @@ public class TripDestination {
 
     @Column(nullable = false)
     private int dayIndex;
+
+    public TripDestination() {}
 
     public Long getId() {
         return id;

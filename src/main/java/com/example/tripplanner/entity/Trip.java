@@ -1,7 +1,6 @@
 package com.example.tripplanner.entity;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -11,7 +10,12 @@ import jakarta.persistence.*;
 public class Trip {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trip_seq")
+    @SequenceGenerator(
+            name = "trip_seq",
+            sequenceName = "trip_sequence",
+            allocationSize = 50
+    )
     private Long id;
 
     @ManyToOne
@@ -27,12 +31,13 @@ public class Trip {
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @Column(nullable = true)
+    @Column
     private LocalDate createdDate;
 
-    @OneToMany()
-    @JoinColumn(name = "destination_id", nullable = false)
+    @OneToMany(mappedBy = "trip")
     private List<TripDestination> tripDestinations;
+
+    public Trip() {}
 
     public Long getId() {
         return id;

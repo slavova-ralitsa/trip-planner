@@ -1,14 +1,20 @@
 package com.example.tripplanner.entity;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_favourites", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"user_id", "destination_id"})
-})
+@Table(name = "user_favourites",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "destination_id"})})
+
 public class UserFavourite {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_favourite_seq")
+    @SequenceGenerator(
+            name = "user_favourite_seq",
+            sequenceName = "user_favourite_sequence",
+            allocationSize = 50
+    )
     private Long id;
 
     @ManyToOne
