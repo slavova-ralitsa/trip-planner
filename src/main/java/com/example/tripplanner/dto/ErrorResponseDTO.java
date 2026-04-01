@@ -7,12 +7,14 @@ public class ErrorResponseDTO {
     private LocalDateTime timestamp;
     private int status;
     private String error;
+    private ErrorCode errorCode;
     private String message;
     private String path;
 
-    public ErrorResponseDTO(int status, String error, String message, String path) {
+    public ErrorResponseDTO(int status,ErrorCode errorCode, String error, String message, String path) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
+        this.errorCode = errorCode;
         this.error = error;
         this.message = message;
         this.path = path;
@@ -29,6 +31,11 @@ public class ErrorResponseDTO {
     public int getStatus() {
         return status;
     }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
+
 
     public String getPath() {
         return path;
