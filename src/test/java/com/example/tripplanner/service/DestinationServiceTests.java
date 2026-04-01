@@ -142,7 +142,7 @@ public class DestinationServiceTests {
 
         when(destinationRepository.findByCity("Sofia")).thenReturn(List.of(destination));
 
-        List<Destination> destinationReturn = destinationService.getDestinationByCity("Sofia");
+        List<Destination> destinationReturn = destinationService.getDestinationsByCity("Sofia");
 
         assertNotNull(destinationReturn);
         assertEquals(1, destinationReturn.size());

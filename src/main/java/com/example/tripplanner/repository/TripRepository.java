@@ -1,11 +1,9 @@
 package com.example.tripplanner.repository;
 
-import com.example.tripplanner.entity.Destination;
 import com.example.tripplanner.entity.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

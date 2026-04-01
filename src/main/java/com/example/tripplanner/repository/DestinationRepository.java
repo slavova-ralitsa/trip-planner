@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface DestinationRepository extends JpaRepository<Destination,Long> {
+
     Optional<Destination> findByLatitudeAndLongitude(double latitude, double longitude);
 
     List<Destination> findByCountry(String country);

@@ -18,7 +18,6 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -60,8 +59,9 @@ public class UserService {
         if (user.getPassword() != null && !user.getPassword().isBlank()) {
             existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-            return userRepository.save(existingUser);
-        }
+
+        return userRepository.save(existingUser);
+    }
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -70,15 +70,14 @@ public class UserService {
     public User registerUser(UserRegistrationDTO dto) {
         String email = dto.getEmail();
         String password = dto.getPassword();
-        String confirmPassword = dto.getConfirmPassword();
 
-         Optional<User> existingUser = userRepository.findByEmail(email);
+        Optional<User> existingUser = userRepository.findByEmail(email);
 
         if(existingUser.isPresent())
             throw new UserAlreadyExistsException();
 
         if(!dto.passwordsMatch())
-            throw new IllegalArgumentException("Passwords do not match");
+            throw new IllegalArgumentException("Passwords do not match!");
 
         User user = new User();
         user.setEmail(email);

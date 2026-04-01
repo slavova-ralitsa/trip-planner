@@ -41,7 +41,7 @@ public class DestinationService {
         return destinationRepository.findByCountry(country);
     }
 
-    public List<Destination> getDestinationByCity(String city) {
+    public List<Destination> getDestinationsByCity(String city) {
         return destinationRepository.findByCity(city);
     }
 
@@ -49,8 +49,8 @@ public class DestinationService {
         Optional<Destination> existingDestination = destinationRepository.findById(id);
         if (existingDestination.isEmpty())
             throw new DestinationNotFoundException((id));
-         else
-             destinationRepository.deleteById(id);
+        else
+            destinationRepository.deleteById(id);
     }
 
     public Destination updateDestination(Long id, Destination destination) {

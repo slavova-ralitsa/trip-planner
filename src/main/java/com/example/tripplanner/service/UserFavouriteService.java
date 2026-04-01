@@ -19,7 +19,9 @@ import java.util.List;
 public class UserFavouriteService {
 
     private final UserFavouriteRepository userFavouriteRepository;
+
     private final UserRepository userRepository;
+
     private final DestinationRepository destinationRepository;
 
     public UserFavouriteService(UserFavouriteRepository userFavouriteRepository, UserRepository userRepository, DestinationRepository destinationRepository) {

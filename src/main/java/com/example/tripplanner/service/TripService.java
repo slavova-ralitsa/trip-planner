@@ -20,11 +20,15 @@ import java.util.List;
 
 @Service
 public class TripService {
+
     private final TripRepository tripRepository;
+    private final DestinationRepository destinationRepository;
+    private final UserRepository userRepository;
 
-
-    public TripService(TripRepository tripRepository) {
+    public TripService(TripRepository tripRepository, DestinationRepository destinationRepository, UserRepository userRepository) {
         this.tripRepository = tripRepository;
+        this.destinationRepository = destinationRepository;
+        this.userRepository = userRepository;
     }
 
     public static double calculateDistanceByHaversineFormula(Destination first, Destination second) {
@@ -71,9 +75,6 @@ public class TripService {
         return sortedDestinations;
     }
 
-    @Autowired
-    private DestinationRepository destinationRepository;
-
     protected List<Destination> transformListOfIdsToListOfDestinations(List<Long> destinationIds) {
         List<Destination> destinations = new ArrayList<>();
         if(destinationIds.isEmpty())
@@ -86,8 +87,6 @@ public class TripService {
         }
         return destinations;
     }
-    @Autowired
-    private UserRepository userRepository;
 
     public Trip createTrip(Long userId, String tripName, LocalDate startDate, LocalDate endDate, List<Long> destinationIds) {
         User user = userRepository.findById(userId)
