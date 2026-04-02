@@ -147,20 +147,19 @@ public class UserServiceTests {
     }
 
     @Test
-    void deleteUserById_invalidId_deletesUser() {
-        User user = createSecondTestUser();
-
-        when(userRepository.findById(2L)).thenReturn(Optional.of(user));
+    void deleteUserById_validId_deletesUser() {
+        when(userRepository.existsById(2L)).thenReturn(true);
         userService.deleteUserById(2L);
-        verify(userRepository, times(1)).deleteById(2L);
+
+        verify(userRepository).deleteById(2L);
     }
 
     @Test
     void deleteUserById_invalidId_throwsUserNotFoundException() {
-        when(userRepository.findById(2L)).thenReturn(Optional.empty());
+        when(userRepository.existsById(2L)).thenReturn(false);
         assertThrows(UserNotFoundException.class, () -> {userService.deleteUserById(2L);});
 
-        verify(userRepository).findById(2L);
+        verify(userRepository).existsById(2L);
         verify(userRepository, times(0)).deleteById(2L);
     }
 
