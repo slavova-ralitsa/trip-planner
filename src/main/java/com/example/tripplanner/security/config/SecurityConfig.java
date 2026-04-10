@@ -1,4 +1,4 @@
-package com.example.tripplanner.config;
+package com.example.tripplanner.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
