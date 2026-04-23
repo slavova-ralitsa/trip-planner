@@ -1,12 +1,11 @@
 package com.example.tripplanner.controller;
 
-import com.example.tripplanner.dto.UserRegistrationDTO;
 import com.example.tripplanner.entity.User;
-import com.example.tripplanner.exception.UserAlreadyExistsException;
 import com.example.tripplanner.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,18 +29,14 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public User getCurrentUser(@RequestParam Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+
+        String userEmail = userDetails.getUsername();
+
+        User currentUser = userService.getUserByUsername(userEmail);
+
+        return ResponseEntity.ok(currentUser);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
-        try {
-            userService.registerUser(userRegistrationDTO);
-            return ResponseEntity.ok("User " + userRegistrationDTO.getEmail() + " is registered successfully!");
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
 }
 
