@@ -96,9 +96,6 @@ Or with Maven Wrapper:
 ./mvnw spring-boot:run
 ```
 
- The app will start at:
-http://localhost:8080
-
 ---
 
 ## API Testing
