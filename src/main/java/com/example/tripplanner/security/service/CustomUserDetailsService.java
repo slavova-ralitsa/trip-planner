@@ -21,12 +21,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @NonNull
     @Override
-    public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
 
-        User user = userService.getUserByUsername(username);
+        User user = userService.getUserByEmail(email);
 
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),

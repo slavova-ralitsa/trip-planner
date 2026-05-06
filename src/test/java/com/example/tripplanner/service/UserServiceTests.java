@@ -94,12 +94,12 @@ public class UserServiceTests {
     }
 
     @Test
-    void getUserByUsername_validUsername_returnsUser() {
+    void getUserByEmail_validEmail_returnsUser() {
         User user = createFirstTestUser();
 
         when(userRepository.findByEmail("ralitsa_sl@gmail.com")).thenReturn(Optional.of(user));
 
-        User result = userService.getUserByUsername("ralitsa_sl@gmail.com");
+        User result = userService.getUserByEmail("ralitsa_sl@gmail.com");
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
@@ -108,10 +108,10 @@ public class UserServiceTests {
     }
 
     @Test
-    void getUserByUsername_invalidUsername_throwsUserNotFoundException() {
+    void getUserByEmail_invalidEmail_throwsUserNotFoundException() {
         when(userRepository.findByEmail("")).thenReturn(Optional.empty());
 
-        assertThrows(UserNotFoundException.class, () -> {userService.getUserByUsername("");});
+        assertThrows(UserNotFoundException.class, () -> {userService.getUserByEmail("");});
         verify(userRepository, times(1)).findByEmail("");
     }
 

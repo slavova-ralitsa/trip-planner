@@ -38,9 +38,9 @@ public class UserService {
                 .orElseThrow(()  -> new UserNotFoundException(id));
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByEmail(username)
-                .orElseThrow(()  -> new UserNotFoundException(username));
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(()  -> new UserNotFoundException(email));
     }
 
     public void deleteUserById(Long id) {

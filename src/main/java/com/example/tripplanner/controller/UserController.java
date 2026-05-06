@@ -33,7 +33,7 @@ public class UserController {
 
         String userEmail = userDetails.getUsername();
 
-        User currentUser = userService.getUserByUsername(userEmail);
+        User currentUser = userService.getUserByEmail(userEmail);
 
         return ResponseEntity.ok(currentUser);
     }

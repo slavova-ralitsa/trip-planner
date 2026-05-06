@@ -41,7 +41,7 @@ public class JwtService {
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -63,7 +63,7 @@ public class JwtService {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        String username = extractUsername(token);
+        String username = extractEmail(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 

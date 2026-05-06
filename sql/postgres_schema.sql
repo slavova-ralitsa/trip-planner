@@ -20,7 +20,7 @@ CREATE TABLE destinations (
 
 CREATE TABLE app_users (
     id BIGSERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE
+    email VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE trips (
@@ -99,7 +99,7 @@ VALUES
 
     ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO app_users (id,username)
+INSERT INTO app_users (id,email)
 VALUES
     (1,'ralica_s'),
     (2,'ivan_g'),
